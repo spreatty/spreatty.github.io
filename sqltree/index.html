@@ -1,1 +1,95 @@
 
+<html>
+    <head>
+        <title>SELECT | Financial Instruments</title>
+        <style>
+            body {
+                font-family: Courier;
+                white-space: nowrap;
+            }
+            span {
+                color: #553;
+                background: #eef;
+                font-style: italic;
+            }
+            div {
+                margin: 0.5em 0;
+            }
+        </style>
+    </head>
+    <body>
+        <div>SIMPLE | - 2 + JOINS | - 0 + UNIONS | WILDCARDS | - 0 + SUBQUERIES | SUBQUERY DEPTH: 0</div>
+        <div>SELECT NOW()</div>
+        <div>SELECT TOP <span>1 - 100</span> username, balance FROM Players ORDER BY <span>any of lastLogin, lastPlay</span> <span>any of ASC, DESC</span></div>
+        <div>SELECT TOP 1 cc.type AS creditCardType FROM Players AS p JOIN Transactions AS t ON p.id = t.userId JOIN CreditCards AS cc ON cc.id = t.creditCardId WHERE p.username = <span>string 5 - 50 characters long of 49 - 130, 132 unicodes</span> ORDER BY t.time DESC</div>
+        <div>SELECT TOP 1 cc.type AS creditCardType FROM Players AS p JOIN Transactions AS t ON p.id = t.userId JOIN CreditCards AS cc ON cc.id = t.creditCardId WHERE p.username LIKE %<span>string 5 - 50 characters long of 49 - 130, 132 unicodes</span>% ORDER BY t.time DESC</div>
+        <div>SELECT DISTINCT TOP 10 t.amount AS amount, t.time AS time FROM Players AS p JOIN Transactions AS t ON p.id = t.userId WHERE p.username = <span>string 5 - 50 characters long of 49 - 130, 132 unicodes</span> AND t.type IN (<span>some of "deposit", "withdraw", "send", "receive"</span>) ORDER BY t.time DESC</div>
+        <div>SELECT TOP 10 id FROM Games WHERE name LIKE <span>string 3 characters long satisfying regex (t|b|c)[a-z]{2}</span>%</div>
+        <script>
+            var queries = [
+                'SELECT NOW()',
+                'SELECT TOP {playersLimit} username, balance FROM Players ORDER BY {playersSort} {playersSortDir}',
+                'SELECT TOP 1 cc.type AS creditCardType FROM Players AS p JOIN Transactions AS t ON p.id = t.userId JOIN CreditCards AS cc ON cc.id = t.creditCardId WHERE p.username = {playerUsernameForLastTransactionCreditCardType} ORDER BY t.time DESC',
+                'SELECT TOP 1 cc.type AS creditCardType FROM Players AS p JOIN Transactions AS t ON p.id = t.userId JOIN CreditCards AS cc ON cc.id = t.creditCardId WHERE p.username LIKE %{playerUsernameForLastTransactionCreditCardType}% ORDER BY t.time DESC',
+                'SELECT DISTINCT TOP 10 t.amount AS amount, t.time AS time FROM Players AS p JOIN Transactions AS t ON p.id = t.userId WHERE p.username = {playerUsernameForLastTransactionsOfTypes} AND t.type IN ({lastTransactionsTypes}) ORDER BY t.time DESC',
+                'SELECT TOP 10 id FROM Games WHERE name LIKE {code}%'
+            ];
+            var variables = {
+                playersLimit: {
+                    min: 1,
+                    max: 100
+                },
+                playersSort: {
+                    options: [
+                        'lastLogin',
+                        'lastPlay'
+                    ]
+                },
+                playersSortDir: {
+                    options: [
+                        'ASC',
+                        'DESC'
+                    ]
+                },
+                playerUsernameForLastTransactionCreditCardType: {
+                    minLength: 5,
+                    maxLength: 50,
+                    unicodeRanges: [
+                        {
+                            min: 49,
+                            max: 130
+                        },
+                        132
+                    ]
+                },
+                playerUsernameForLastTransactionsOfTypes: {
+                    minLength: 5,
+                    maxLength: 50,
+                    unicodeRanges: [
+                        {
+                            min: 49,
+                            max: 130
+                        },
+                        132
+                    ]
+                },
+                lastTransactionsTypes: {
+                    options: [
+                        '"deposit"',
+                        '"withdraw"',
+                        '"send"',
+                        '"receive"'
+                    ],
+                    multiple: true
+                },
+                code: {
+                    length: 3,
+                    regex: '(t|b|c)[a-z]{2}'
+                }
+            };
+        </script>
+        <script>
+
+        </script>
+    </body>
+</html>
